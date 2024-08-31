@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <meta
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+      name="viewport"
+    />
+    <link
+      rel="icon"
+      href="assets/img/kaiadmin/favicon.ico"
+      type="image/x-icon"
+    />
+
+    <!-- Fonts and icons -->
+    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["assets/css/fonts.min.css"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" href="assets/css/demo.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <div class="sidebar" id ="sidebar" data-background-color="dark">
+      
+      </div>
+      <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <div class="main-header" id="header">
+        
+        </div>
+
+
+        <div class="container">
+            <div class="page-inner">
+                <div class="page-header">
+                  <h3 class="fw-bold mb-3">Products Purchase </h3>
+                  <ul class="breadcrumbs mb-3">
+                    <li class="nav-home">
+                      <a href="#">
+                        <i class="icon-home"></i>
+                      </a>
+                    </li>
+                    <li class="separator">
+                      <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#"> Products</a>
+                    </li>
+                    <li class="separator">
+                      <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#">Products Purchase </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+                        <!-- <div>
+                          <h3 class="fw-bold mb-3">Dashboard</h3>
+                          <h6 class="op-7 mb-2">Free Bootstrap 5 Admin Dashboard</h6>
+                        </div> -->
+                        <div class="ms-md-auto py-2 py-md-0">
+                          <!-- <a href="#" class="btn btn-label-info btn-round me-2">Add Product</a> -->
+                          <a href="#" class="btn btn-success btn-round" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clearProductModal()" >Add Product</a>
+                          <a href="sale.html" class="btn btn-primary btn-round">Sale Product</a>
+                        </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+                <div class="row d-flex">
+                    <div class="col-md-4 ">
+                        <div class="card">
+                            <div class="card-header d-flex">
+                                <!-- <h4 class="card-title">Products </h4> -->
+                                <div class="col-sm-6 col-md-6 ">
+                                  <h4 class="card-title"> Products </h4> 
+                                </div>
+                                <div class="col-sm-6 col-md-6">
+                                    <div id="basic-datatables_filter" class="dataTables_filter">
+                                        <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="basic-datatables"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row d-flex" id="products">
+
+                                    <!-- data from api  -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-8">
+                        <form action="">
+                            <div class="card">
+                                <div class="card-header d-flex">
+                                    <div class="col-md-6">
+                                        <h4 class="card-title">Purchase Products </h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-select" aria-label="Default select example" id="supplier" required>
+                                            <!-- options from api  -->
+                                        </select>
+                                        <p class="text-danger" id="alert"> </p>
+                                    </div>
+                                
+                                    
+                                </div>
+                                
+                                <div class="card-body">
+                                    <!-- <div class="card-sub">
+                                        Add
+                                        <code class="highlighter-rouge">.table-striped</code> to
+                                        rows the striped table
+                                    </div> -->
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mt-3 ">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">SL</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Code</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Unit Price</th>
+                                                <th scope="col">Total Price</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="purchaseProduct">
+
+                                            <!-- <td colspan="6" class="text-center" id="message">No Products Selected yet</td> -->
+                                            
+                                            </tbody>
+                                            <tfoot >
+                                                <tr style="display: none;">
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td style=" width:35%" colspan="2">Grand Total : </td>
+                                                    <td style=" width:35%" id="grand_total" class="text-end"> 0.00 BDT  </td>
+                                                    <!-- <td style=" width:35%" id="grand_total_dis" class="text-end"> 0.00 BDT  </td> -->
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td style=" width:35%" colspan="2">Grand Total : </td>
+                                                    <!-- <td style=" width:35%" id="grand_total" class="text-end"> 0.00 BDT  </td> -->
+                                                    <td style=" width:35%" id="grand_total_dis" class="text-end"> 0.00 BDT  </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                        <!-- <button type="button" >Submit Purchase</button> -->
+                                        <div class="d-flex justify-content-end">
+                                            <div class="col-md-6 text-end" >
+                                                <button class="btn btn-primary mb-3" onclick="submitPurchase(event)">Submit Purchase</button>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                
+                                </div>
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
+        </div>
+
+    
+        <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"> Product </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addProductForm">
+              <div class="modal-body">
+                  <input type="hidden" id="productId" value="0">
+                  <div class="mb-3">
+                    <label for="exampleInputName1" class="form-label"> Product Name </label>
+                    <input type="text" class="form-control form-control-lg" name="name" id="productName" required>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label for="defaultSelect" class="mb-2"> Select Category</label>
+                        <select class="form-select form-control" id="category" name="category" required>
+                          
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="exampleInputCode" class="form-label"> Code </label>
+                      <input type="text" class="form-control" name="code" id="code" >
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="exampleInputQuantity" class="form-label"> Quantity </label>
+                      <input type="number" class="form-control" name="product_quantity" id="quantity" >
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="exampleInputUnit" class="form-label">Unit</label>
+                      <input type="text" class="form-control" id="unit" name="unit" >
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="exampleInputPurchase" class="form-label"> Purchase Price</label>
+                      <input type="number" class="form-control" name="purchase_price" id="purchase_price" >
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="exampleInputSales" class="form-label"> Sales Price</label>
+                      <input type="number" class="form-control" id="sales_price" name="sales_price" >
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Product Image</label>
+                    <input type="file" class="form-control" id="image"  onchange="previewImage()" name="image">
+                  </div>
+
+                  <div class="mb-3">
+                    <img id="imagePreview" src="" alt="Image Preview" style="max-width: 100%; height: auto;">
+                </div>
+                  
+                  <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                  </div>
+                  <!-- <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button> -->
+
+
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" onclick="addProduct(event)" id="saveOrUpdateBtn" > Save Product </button>
+              </div>
+
+              
+          </form>
+
+
+          </div>
+        </div>
+      </div>
+
+        <footer class="footer">
+          <div class="container-fluid d-flex justify-content-between">
+            <nav class="pull-left">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="http://www.themekita.com">
+                    ThemeKita
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"> Help </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"> Licenses </a>
+                </li>
+              </ul>
+            </nav>
+            <div class="copyright">
+              2024, made with <i class="fa fa-heart heart text-danger"></i> by
+              <a href="http://www.themekita.com">ThemeKita</a>
+            </div>
+            <div>
+              Distributed by
+              <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
+            </div>
+          </div>
+        </footer>
+
+      </div>
+
+
+    </div>
+    <!--   Core JS Files   -->
+    <script src="assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/core/popper.min.js"></script>
+    <script src="assets/js/core/bootstrap.min.js"></script>
+
+
+
+    <!-- jQuery Scrollbar -->
+    <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+    <!-- Chart JS -->
+    <script src="assets/js/plugin/chart.js/chart.min.js"></script>
+
+    <!-- jQuery Sparkline -->
+    <script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Chart Circle -->
+    <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+
+    <!-- Datatables -->
+    <script src="assets/js/plugin/datatables/datatables.min.js"></script>
+
+    <!-- Bootstrap Notify -->
+    <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+    <!-- jQuery Vector Maps -->
+    <script src="assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="assets/js/plugin/jsvectormap/world.js"></script>
+
+    <!-- Sweet Alert -->
+    <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+
+    <!-- Kaiadmin JS -->
+    <script src="assets/js/kaiadmin.min.js"></script>
+
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <script src="assets/js/setting-demo.js"></script>
+    <script src="assets/js/demo.js"></script>
+
+    <script>
+      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#177dff",
+        fillColor: "rgba(23, 125, 255, 0.14)",
+      });
+
+      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#f3545d",
+        fillColor: "rgba(243, 84, 93, .14)",
+      });
+
+      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#ffa534",
+        fillColor: "rgba(255, 165, 52, .14)",
+      });
+    </script>
+
+
+
+       
+    <!-- custom js -->
+    <script src="assets/custom/js/products.js"></script>
+    
+    <script src="assets/custom/js/common.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#basic-datatables_filter input').on('keyup', function() {
+                var value = $(this).val().toLowerCase();
+                $('.product').filter(function() {
+                    // Use trim to remove any extra spaces
+                    var code = $(this).find('#code').text().trim().toLowerCase();
+                    $(this).toggle(code.indexOf(value) > -1);
+                });
+            });
+        });
+
+
+    </script>
+
+    <!-- <script>
+        $(document).ready(function() {
+            $('#basic-datatables_filter input').on('keyup', function() {
+                var value = $(this).val().toLowerCase();
+
+                // Make an AJAX request to fetch filtered products
+                $.ajax({
+                    url: 'https://swiftpos.onrender.com/productsapp/products/', // Adjust URL as needed
+                    method: 'GET',
+                    data: { search: value }, // Pass the search term
+                    success: function(data) {
+                        // Clear the current card display
+                        $('.row.d-flex').empty();
+
+                        // Loop through the filtered data and append the cards
+                        data.forEach(function(product) {
+                            var cardHtml = `<div class="col-md-4">
+                                                <div class="card">
+                                                    <img src="${product.image ? product.image : 'default-image.png'}" class="card-img-top" alt="...">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title" id="code">${product.code}</h6>
+                                                        <a href="#" class="btn btn-sm btn-primary">Click Here</a>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                            $('.row.d-flex').append(cardHtml);
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+            });
+        });
+
+    </script> -->
+
+
+  </body>
+</html>
