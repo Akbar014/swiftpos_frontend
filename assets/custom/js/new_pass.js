@@ -14,7 +14,7 @@ const setNewPass = (event) => {
 
             if (/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password)){
      
-             fetch("http://127.0.0.1:8000/personapp/api/password_reset/confirm/", {
+             fetch("https://swiftpos-delta.vercel.app/personapp/api/password_reset/confirm/", {
                  method: "POST",
                  headers: { "content-type": "application/json" },
                  body: JSON.stringify({ password, token }),

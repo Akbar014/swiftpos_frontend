@@ -5,7 +5,7 @@ const handleLogin = (event) => {
     const username = getValue("login-username");
     const password = getValue("login-password");
     if ((username, password)) {
-      fetch("http://127.0.0.1:8000/personapp/login/", {
+      fetch("https://swiftpos-delta.vercel.app/personapp/login/", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -37,7 +37,7 @@ const handforgot = (event) => {
     const email = getValue("user-email");
     // const password = getValue("login-password");
     if ((email)) {
-      fetch("http://127.0.0.1:8000/personapp/api/password_reset/", {
+      fetch("https://swiftpos-delta.vercel.app/personapp/api/password_reset/", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ email }),
