@@ -8,7 +8,7 @@ function loadHeader() {
 
         // loadScript('path/to/first-script.js');
 
-        fetch(`https://swiftpos.onrender.com/personapp/users/${user_id}/`)
+        fetch(`https://swiftpos-delta.vercel.app/personapp/users/${user_id}/`)
         .then((res) => res.json())
         .then ((info)=> {
             document.getElementById('profile_username').innerHTML = info.username;

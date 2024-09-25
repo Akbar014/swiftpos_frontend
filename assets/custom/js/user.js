@@ -8,11 +8,11 @@ function addUser(event) {
     const userId = document.getElementById("userId").value ;
 
     console.log(data);
-    let url = 'https://swiftpos.onrender.com/personapp/register/';
+    let url = 'https://swiftpos-delta.vercel.app/personapp/register/';
     let method = 'POST';
 
     if (userId>0) {
-        url = `https://swiftpos.onrender.com/personapp/users/${userId}/`; 
+        url = `https://swiftpos-delta.vercel.app/personapp/users/${userId}/`; 
         method = 'PATCH'; 
     }
     
@@ -47,7 +47,7 @@ function addUser(event) {
 }
 
 function edituserInfo(id){
-    fetch(`https://swiftpos.onrender.com/personapp/users/${id}/`)
+    fetch(`https://swiftpos-delta.vercel.app/personapp/users/${id}/`)
     .then((res) => res.json())
     .then((data) => {
         console.log(data)

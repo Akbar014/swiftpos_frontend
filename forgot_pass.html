@@ -20,21 +20,18 @@
         <div class="text-center mt-4 name">
             SWIFTPOS
         </div>
-        <p id="alert" style="color: red;"></p>
+        <!-- <p id="alert" style="color: red;"></p> -->
         <form class="p-3 mt-3">
             <div class="form-field d-flex align-items-center">
                 <span class="far fa-user"></span>
-                <input type="text" name="userName" id="login-username" placeholder="Username">
+                <input type="text" name="email" id="user-email" placeholder="Enter Email">
             </div>
-            <div class="form-field d-flex align-items-center">
-                <span class="fas fa-key"></span>
-                <input type="password" name="password" id="login-password" placeholder="Password">
-            </div>
-            <button class="btn mt-3" onclick="handleLogin(event)" >Login</button>
+            <div id="alert" class="form-text"></div>
+            <button class="btn mt-3" onclick="handforgot(event)" >Submit</button>
         </form>
 
         <div class="text-center fs-6">
-            <a href="#">Forget password?</a> or <a href="#">Sign up</a>
+            <a href="forgot_pass.html">Forget password?</a> or <a href="#">Sign in</a>
         </div>
     </div>
 

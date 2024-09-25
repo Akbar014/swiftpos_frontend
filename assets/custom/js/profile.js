@@ -1,7 +1,7 @@
 function profileInfo(){
     const userId = localStorage.getItem("user_id")
     console.log(userId)
-    fetch(`https://swiftpos.onrender.com/personapp/users/${userId}/`)
+    fetch(`https://swiftpos-delta.vercel.app/personapp/users/${userId}/`)
     .then((res) => res.json())
     .then ((data) => {
         const full_name = data.first_name + ' ' + data.last_name
@@ -26,7 +26,7 @@ function profileInfo(){
         document.getElementById('address').value = data.address;
     })
 
-    // fetch(`https://swiftpos.onrender.com/productsapp/products/`)
+    // fetch(`https://swiftpos-delta.vercel.app/productsapp/products/`)
     // .then((res) => res.json())
     // // .then((data)=> console.log(data)) 
     // .then((data)=> displayProductData(data))
@@ -63,7 +63,7 @@ const editProfileInfo = (event) => {
     }
 
 
-    fetch(`https://swiftpos.onrender.com/personapp/users/${user_id}/`, {
+    fetch(`https://swiftpos-delta.vercel.app/personapp/users/${user_id}/`, {
         method: 'PATCH',
         headers: {
             // 'Content-Type': 'application/json',

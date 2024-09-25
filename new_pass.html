@@ -24,20 +24,20 @@
         <form class="p-3 mt-3">
             <div class="form-field d-flex align-items-center">
                 <span class="far fa-user"></span>
-                <input type="text" name="userName" id="login-username" placeholder="Username">
+                <input type="password" name="userName" id="newPass" placeholder="New Password">
             </div>
             <div class="form-field d-flex align-items-center">
-                <span class="fas fa-key"></span>
-                <input type="password" name="password" id="login-password" placeholder="Password">
+                <span class="far fa-user"></span>
+                <input type="password" name="userName" id="confirmPass" placeholder="Confirm Password">
             </div>
-            <button class="btn mt-3" onclick="handleLogin(event)" >Login</button>
+            <p id="error"></p>
+            
+            <button class="btn mt-3" onclick="setNewPass(event)" >Submit</button>
         </form>
 
-        <div class="text-center fs-6">
-            <a href="forgot_pass.html">Forget password?</a> or <a href="#">Sign in</a>
-        </div>
+        
     </div>
 
-    <script src="assets/custom/js/login.js"></script>
+    <script src="assets/custom/js/new_pass.js"></script>
 </body>
 </html>

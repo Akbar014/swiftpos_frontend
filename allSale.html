@@ -356,14 +356,14 @@
     const user = localStorage.getItem("user");
 
     $.ajax({
-        url: 'https://swiftpos.onrender.com/salesapp/sales/',
+        url: 'https://swiftpos-delta.vercel.app/salesapp/sales/',
         method: 'GET',
         success: function (data) {
             data.forEach(function (sale) {
               console.log(sale)
               console.log(user)
                 // Fetch customer information for each sale
-                fetch(`https://swiftpos.onrender.com/personapp/customer/${sale.customer}/`)
+                fetch(`https://swiftpos-delta.vercel.app/personapp/customer/${sale.customer}/`)
                     .then((res) => res.json())
                     .then((customerData) => {
                         // Fetch user information for each sale

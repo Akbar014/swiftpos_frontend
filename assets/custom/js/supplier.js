@@ -8,7 +8,7 @@ function addSupplier(event) {
     const supplierId = document.getElementById("supplierId").value ;
 
     console.log(data);
-    let url = 'https://swiftpos.onrender.com/personapp/supplier/';
+    let url = 'https://swiftpos-delta.vercel.app/personapp/supplier/';
     let method = 'POST';
 
     if (supplierId>0) {
@@ -47,7 +47,7 @@ function addSupplier(event) {
 }
 
 function editSupplierInfo(id){
-    fetch(`https://swiftpos.onrender.com/personapp/supplier/${id}/`)
+    fetch(`https://swiftpos-delta.vercel.app/personapp/supplier/${id}/`)
     .then((res) => res.json())
     .then((data) => {
         document.getElementById("supplierId").value = data.id;

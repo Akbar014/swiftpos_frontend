@@ -354,13 +354,13 @@
     let totalAmountSum = 0;
 
     $.ajax({
-        url: 'https://swiftpos.onrender.com/historyapp/saleHistory/',
+        url: 'https://swiftpos-delta.vercel.app/historyapp/saleHistory/',
         method: 'GET',
         success: function (data) {
             data.forEach(function (sale) {
               totalAmountSum += parseFloat(sale.total_amount);
                 // Fetch customer information for each sale
-                fetch(`https://swiftpos.onrender.com/personapp/users/${user}/`)
+                fetch(`https://swiftpos-delta.vercel.app/personapp/users/${user}/`)
                     .then((res) => res.json())
                     .then((userData) => {
                         // Fetch user information for each sale

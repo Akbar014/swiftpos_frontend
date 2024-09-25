@@ -1,6 +1,6 @@
 
 function allProducts(){
-    fetch(`https://swiftpos.onrender.com/productsapp/products/`)
+    fetch(`https://swiftpos-delta.vercel.app/productsapp/products/`)
     .then((res) => res.json())
     // .then((data)=> console.log(data)) 
     .then((data)=> displayProductData(data))
@@ -52,7 +52,7 @@ function addProduct(event) {
         formData.delete('image'); // Remove the image field from formData if no new image is selected
     }
     
-    let url = 'https://swiftpos.onrender.com/productsapp/products/';
+    let url = 'https://swiftpos-delta.vercel.app/productsapp/products/';
     let method = 'POST';
 
     if (productId>0) {
@@ -94,7 +94,7 @@ function addProduct(event) {
 
 
 function editProductInfo(id){
-    fetch(`https://swiftpos.onrender.com/productsapp/products/${id}/`)
+    fetch(`https://swiftpos-delta.vercel.app/productsapp/products/${id}/`)
     .then((res) => res.json())
     .then((data) => {
 
@@ -160,7 +160,7 @@ function previewImage() {
 
 function add_to_purchase(product_id){
     
-    fetch(`https://swiftpos.onrender.com/productsapp/products/${product_id}/`)
+    fetch(`https://swiftpos-delta.vercel.app/productsapp/products/${product_id}/`)
     .then((res) => res.json())
     .then((data)=> addProductToPurchase(data))
     .catch((err)=> console.log(err));
@@ -267,7 +267,7 @@ function updateSerialNumbers() {
 
 
 function allSupplier() {
-    fetch(`https://swiftpos.onrender.com/personapp/supplier/`)
+    fetch(`https://swiftpos-delta.vercel.app/personapp/supplier/`)
         .then((res) => res.json())
         .then((data) => {
             const parent = document.getElementById("supplier");
@@ -284,7 +284,7 @@ function allSupplier() {
 }
 
 function allCustomer() {
-    fetch(`https://swiftpos.onrender.com/personapp/customer/`)
+    fetch(`https://swiftpos-delta.vercel.app/personapp/customer/`)
         .then((res) => res.json())
         .then((data) => {
             const parent = document.getElementById("customer");
@@ -301,7 +301,7 @@ function allCustomer() {
 }
 
 function allCategory() {
-    fetch(`https://swiftpos.onrender.com/productsapp/category/`)
+    fetch(`https://swiftpos-delta.vercel.app/productsapp/category/`)
         .then((res) => res.json())
         .then((data) => {
             const parent = document.getElementById("category");
@@ -347,7 +347,7 @@ function submitPurchase(event) {
 
     };
 
-    fetch('https://swiftpos.onrender.com/purchaseapp/purchases/', {
+    fetch('https://swiftpos-delta.vercel.app/purchaseapp/purchases/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -430,7 +430,7 @@ function submitSale(event) {
 
     console.log(saleData)
 
-    fetch('https://swiftpos.onrender.com/salesapp/sales/', {
+    fetch('https://swiftpos-delta.vercel.app/salesapp/sales/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -470,7 +470,7 @@ function submitSale(event) {
 function saleDetails(){
     const param = new URLSearchParams(window.location.search).get("donorRequestId");
     console.log(param);
-    fetch(`https://swiftpos.onrender.com/salesapp/sales/${param}/`)
+    fetch(`https://swiftpos-delta.vercel.app/salesapp/sales/${param}/`)
     .then((res) => res.json())
     .then((data)=> {
         console.log(data.code)

@@ -1,10 +1,10 @@
 const saletDetails = () => {
     const param = new URLSearchParams(window.location.search).get("saleId");
 
-    fetch(`https://swiftpos.onrender.com/salesapp/sales/${param}/`)
+    fetch(`https://swiftpos-delta.vercel.app/salesapp/sales/${param}/`)
     .then((res) => res.json())
     .then((sale) => {
-        fetch(`https://swiftpos.onrender.com/personapp/customer/${sale.customer}/`)
+        fetch(`https://swiftpos-delta.vercel.app/personapp/customer/${sale.customer}/`)
         .then((res) => res.json())
         .then((customer) => {
             console.log(sale);       // Log the sale data
@@ -23,7 +23,7 @@ const saletDetails = () => {
 
             // Use Promise.all to fetch all product names before updating the table
             const productPromises = sale.items.map((item) => {
-                return fetch(`https://swiftpos.onrender.com/productsapp/products/${item.product}/`)
+                return fetch(`https://swiftpos-delta.vercel.app/productsapp/products/${item.product}/`)
                 .then((res) => res.json())
                 .then((product) => {
                     return { ...item, productName: product.name , productCode: product.code };

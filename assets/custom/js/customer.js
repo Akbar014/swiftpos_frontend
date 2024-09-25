@@ -8,7 +8,7 @@ function addCustomer(event) {
     const customerId = document.getElementById("customerId").value ;
 
     console.log(data);
-    let url = 'https://swiftpos.onrender.com/personapp/customer/';
+    let url = 'https://swiftpos-delta.vercel.app/personapp/customer/';
     let method = 'POST';
 
     if (customerId>0) {
@@ -47,7 +47,7 @@ function addCustomer(event) {
 }
 
 function editCustomerInfo(id){
-    fetch(`https://swiftpos.onrender.com/personapp/customer/${id}/`)
+    fetch(`https://swiftpos-delta.vercel.app/personapp/customer/${id}/`)
     .then((res) => res.json())
     .then((data) => {
 
@@ -65,7 +65,6 @@ function editCustomerInfo(id){
 function clearCustomerModal(){
     document.getElementById("customerId").value = 0;
     document.getElementById("customerName").value = ''
-    document.getElementById("CompanyName").value = ''
     document.getElementById("phone").value = ''
     document.getElementById("address").value = ''
 }
