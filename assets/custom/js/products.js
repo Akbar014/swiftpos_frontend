@@ -45,6 +45,10 @@ function addProduct(event) {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
     const productId = document.getElementById("productId").value ;
+    const categoryId = document.getElementById("category").value ;
+    if(categoryId==0){
+
+    }
 
     // console.log(data);
     const imageField = document.getElementById("image");
@@ -57,7 +61,7 @@ function addProduct(event) {
 
     if (productId>0) {
         url += `${productId}/`; // Append the product ID to the URL
-        method = 'PATCH'; // Use PUT for updates
+        method = 'PATCH'; 
     }
     
     fetch(url, {

@@ -20,7 +20,7 @@ const handleLogin = (event) => {
             localStorage.setItem("user_id", data.user_id);
             localStorage.setItem("role", data.role);
             // document.getElementById("loginalert").innerHTML = "Successfull Logged in ";
-            window.location.href = "index.html";
+            window.location.href = "index2.html";
             
             
           }else{
