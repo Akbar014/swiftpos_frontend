@@ -84,7 +84,7 @@ const handforgot = (event) => {
         localStorage.removeItem("user");
         localStorage.removeItem("user_id");
 
-        window.location.href = "login.html";
+        window.location.href = "index.html";
 
       });
   };
