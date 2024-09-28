@@ -123,8 +123,8 @@ function securePage(){
     const pageUrl = getCurrentFilename();
     const token = localStorage.getItem('token');
     // window.location.href = token ? pageUrl : 'login.html';
-    if (!token && pageUrl !== 'login.html') {
-        window.location.href = 'login.html';
+    if (!token && pageUrl !== 'index.html') {
+        window.location.href = 'index.html';
     }
 
     // Optional: Redirect to a default page if authenticated and on login.html
