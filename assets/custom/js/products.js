@@ -38,28 +38,102 @@ function displayProductData(products){
 }
 
 
+// function addProduct(event) {
+//     event.preventDefault(); // Prevent the default form submission behavior
+    
+//     const form = document.getElementById('addProductForm');
+//     const formData = new FormData(form);
+//     const data = Object.fromEntries(formData.entries());
+//     const productId = document.getElementById("productId").value ;
+//     const categoryId = document.getElementById("category").value ;
+//     if(categoryId==0){
+//         swal({
+//             title:   "Error!" ,
+//             text:   "Please select category!",
+//             icon: "error",
+//             buttons: {
+//                 confirm: {
+//                     className: "btn btn-success",
+//                 },
+//             },
+//         })
+//     }
+
+//     // console.log(data);
+//     const imageField = document.getElementById("image");
+//     if (imageField && imageField.files.length === 0) {
+//         formData.delete('image'); // Remove the image field from formData if no new image is selected
+//     }
+    
+//     // let url = 'https://swiftpos-delta.vercel.app/productsapp/products/';
+//     let url = 'http://127.0.0.1:8000/productsapp/products/';
+//     let method = 'POST';
+
+//     if (productId>0) {
+//         url += `${productId}/`; // Append the product ID to the URL
+//         method = 'PATCH'; 
+//     }
+    
+//     fetch(url, {
+//         method: method,
+//         headers: {
+//             'Authorization': `Token ${localStorage.getItem('token')}`
+//         },
+//         body: formData // Send the FormData object directly
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         console.log(data)
+//         if(data.category){
+//             // alert("Please select category")
+           
+//             // .then(() => {
+//             //     window.location.href = "products.html";
+//             // });
+//         }else{
+//             swal({
+//                 title: method === 'POST' ? "Success!" : "Updated!",
+//                 text: method === 'POST' ? "Product added successfully!" : "Product updated successfully!",
+//                 icon: "success",
+//                 buttons: {
+//                     confirm: {
+//                         className: "btn btn-success",
+//                     },
+//                 },
+//             }).then(() => {
+//                 window.location.href = "products.html";
+//             });
+//         }
+        
+
+//     }
+
+// )
+    
+// }
+
 function addProduct(event) {
     event.preventDefault(); // Prevent the default form submission behavior
     
     const form = document.getElementById('addProductForm');
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-    const productId = document.getElementById("productId").value ;
-    const categoryId = document.getElementById("category").value ;
-    if(categoryId==0){
+    const productId = document.getElementById("productId").value;
+    const categoryId = document.getElementById("category").value;
+
+    if (categoryId == 0) {
         swal({
-            title:   "Error!" ,
-            text:   "Please select category!",
+            title: "Error!",
+            text: "Please select category!",
             icon: "error",
             buttons: {
                 confirm: {
                     className: "btn btn-success",
                 },
             },
-        })
+        });
+        return; // Stop further execution
     }
 
-    // console.log(data);
     const imageField = document.getElementById("image");
     if (imageField && imageField.files.length === 0) {
         formData.delete('image'); // Remove the image field from formData if no new image is selected
@@ -68,7 +142,7 @@ function addProduct(event) {
     let url = 'https://swiftpos-delta.vercel.app/productsapp/products/';
     let method = 'POST';
 
-    if (productId>0) {
+    if (productId > 0) {
         url += `${productId}/`; // Append the product ID to the URL
         method = 'PATCH'; 
     }
@@ -80,15 +154,9 @@ function addProduct(event) {
         },
         body: formData // Send the FormData object directly
     })
-    .then(response => response.json())
-    .then(data => {
-        if(data.category){
-            // alert("Please select category")
-           
-            // .then(() => {
-            //     window.location.href = "products.html";
-            // });
-        }else{
+    .then(response => {
+        if (response.status === 201 || response.status === 200) {
+            // Check if the response indicates success (201 for POST, 200 for PATCH)
             swal({
                 title: method === 'POST' ? "Success!" : "Updated!",
                 text: method === 'POST' ? "Product added successfully!" : "Product updated successfully!",
@@ -101,18 +169,29 @@ function addProduct(event) {
             }).then(() => {
                 window.location.href = "products.html";
             });
+        } else {
+            // Handle non-successful status
+            return response.json(); // Process the error response
         }
-        
-
-    }
-
-)
-    // .catch(error => {
-    //     console.error('Error:', error);
-    //     alert('Error creating entry.');
-    // });
+    })
+    .then(data => {
+        if (data && data.category) {
+            swal({
+                title: "Error!",
+                text: "Please select category!",
+                icon: "error",
+                buttons: {
+                    confirm: {
+                        className: "btn btn-danger",
+                    },
+                },
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
-
 
 
 function editProductInfo(id){
