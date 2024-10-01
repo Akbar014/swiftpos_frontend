@@ -47,7 +47,16 @@ function addProduct(event) {
     const productId = document.getElementById("productId").value ;
     const categoryId = document.getElementById("category").value ;
     if(categoryId==0){
-
+        swal({
+            title:   "Error!" ,
+            text:   "Please select category!",
+            icon: "error",
+            buttons: {
+                confirm: {
+                    className: "btn btn-success",
+                },
+            },
+        })
     }
 
     // console.log(data);
@@ -73,26 +82,35 @@ function addProduct(event) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
-        swal({
-            title: method === 'POST' ? "Success!" : "Updated!",
-            text: method === 'POST' ? "Product added successfully!" : "Product updated successfully!",
-            icon: "success",
-            buttons: {
-                confirm: {
-                    className: "btn btn-success",
+        if(data.category){
+            // alert("Please select category")
+           
+            // .then(() => {
+            //     window.location.href = "products.html";
+            // });
+        }else{
+            swal({
+                title: method === 'POST' ? "Success!" : "Updated!",
+                text: method === 'POST' ? "Product added successfully!" : "Product updated successfully!",
+                icon: "success",
+                buttons: {
+                    confirm: {
+                        className: "btn btn-success",
+                    },
                 },
-            },
-        }).then(() => {
-            // Redirect to products.html after the user clicks the alert
-            window.location.href = "products.html";
-        });
+            }).then(() => {
+                window.location.href = "products.html";
+            });
+        }
+        
 
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error creating entry.');
-    });
+    }
+
+)
+    // .catch(error => {
+    //     console.error('Error:', error);
+    //     alert('Error creating entry.');
+    // });
 }
 
 
@@ -142,6 +160,77 @@ function clearProductModal(){
         }
 
 
+}
+
+
+function addCategory(event) {
+    event.preventDefault(); 
+    
+    const form = document.getElementById('addCategoryForm');
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    const categoryId = document.getElementById("categoryId").value ;
+    if(categoryId==0){
+
+    }
+
+    let url = 'https://swiftpos-delta.vercel.app/productsapp/category/';
+    let method = 'POST';
+
+    if (categoryId>0) {
+        url += `${categoryId}/`; 
+        method = 'PATCH'; 
+    }
+    
+    fetch(url, {
+        method: method,
+        headers: {
+            'Authorization': `Token ${localStorage.getItem('token')}`
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        swal({
+            title: method === 'POST' ? "Success!" : "Updated!",
+            text: method === 'POST' ? "Category added successfully!" : "Category updated successfully!",
+            icon: "success",
+            buttons: {
+                confirm: {
+                    className: "btn btn-success",
+                },
+            },
+        }).then(() => {
+            window.location.href = "category.html";
+        });
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error creating entry.');
+    });
+}
+
+
+
+function editCategoryInfo(id){
+    fetch(`https://swiftpos-delta.vercel.app/productsapp/category/${id}/`)
+    .then((res) => res.json())
+    .then((data) => {
+
+        document.getElementById("categoryId").value = data.id;
+        document.getElementById("categoryName").value = data.name
+        document.getElementById("description").value = data.description
+        document.getElementById("saveOrUpdateBtn").textContent = 'Update Product'
+
+    })
+}
+
+function clearCategoryModal(){
+    document.getElementById("categoryId").value = 0;
+    document.getElementById("categoryName").value = ''
+    document.getElementById("description").value = ''
 }
 
 function previewImage() {
@@ -414,6 +503,21 @@ function submitSale(event) {
 
     });
 
+    if(saleItems.length <= 0){
+        swal({
+            title: "Error!",
+            text: "Select Product First!",
+            icon: "error", 
+            buttons: { 
+                confirm: {
+                    className: "btn btn-success",
+                },
+            },
+        }).then(() => {
+            window.location.href = "sale.html";
+        });
+    }
+
     const saleData = {
 
         code: 1234, 
@@ -445,7 +549,7 @@ function submitSale(event) {
     .then(response => {
         if (!response.ok) {
             return response.json().then(errorData => {
-                document.getElementById("alert").innerText = ' Select Supplier To Purchase Successfully ';
+                document.getElementById("alert").innerText = ' Select Customer To Sale Successfully ';
                 throw new Error(JSON.stringify(errorData));
             });
         }

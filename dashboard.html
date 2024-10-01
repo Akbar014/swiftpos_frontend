@@ -34,6 +34,7 @@
 
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link rel="stylesheet" href="assets/css/demo.css" />
+  
 </head>
 
 <body>
@@ -58,13 +59,15 @@
               <h3 class="fw-bold mb-3">Dashboard</h3>
               <h6 class="op-7 mb-2">SWIFTPOS Dashboard</h6>
             </div>
+
             <!-- <div class="ms-md-auto py-2 py-md-0">
               <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
               <a href="#" class="btn btn-primary btn-round">Add Customer</a>
             </div> -->
+
           </div>
           
-          <!-- <div class="row">
+          <div class="row">
             <div class="col-sm-6 col-md-3">
               <div class="card card-stats card-round">
                 <div class="card-body">
@@ -76,8 +79,8 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                       <div class="numbers">
-                        <p class="card-category">Visitors</p>
-                        <h4 class="card-title">1,294</h4>
+                        <p class="card-category">Total Customers</p>
+                        <h4 class="card-title" id="total_customer"></h4>
                       </div>
                     </div>
                   </div>
@@ -95,8 +98,8 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                       <div class="numbers">
-                        <p class="card-category">Subscribers</p>
-                        <h4 class="card-title">1303</h4>
+                        <p class="card-category">Total Suppliers</p>
+                        <h4 class="card-title" id="total_supplier"></h4>
                       </div>
                     </div>
                   </div>
@@ -114,8 +117,90 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                       <div class="numbers">
-                        <p class="card-category">Sales</p>
-                        <h4 class="card-title">$ 1,345</h4>
+                        <p class="card-category">Total Products</p>
+                        <h4 class="card-title" id="total_products"></h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <div class="card card-stats card-round">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-icon">
+                      <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                        <!-- <i class="far fa-check-circle"></i> -->
+                        <i class="fa fa-tags"></i>
+
+                      </div> 
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                      <div class="numbers">
+                        <p class="card-category">Total Categories</p>
+                        <h4 class="card-title" id="total_category"></h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6 col-md-3">
+              <div class="card card-stats card-round">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-icon">
+                      <div class="icon-big text-center icon-primary bubble-shadow-small">
+                        <i class="fas fa-shopping-bag"></i>
+                      </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                      <div class="numbers">
+                        <p class="card-category">Total Sales Amount</p>
+                        <h4 class="card-title" id="total_sale_amount"></h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <div class="card card-stats card-round">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-icon">
+                      <div class="icon-big text-center icon-info bubble-shadow-small">
+                        <i class="fas fa-shopping-basket"></i>
+                      </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                      <div class="numbers">
+                        <p class="card-category">Total Purchase Amount</p>
+                        <h4 class="card-title"  id="total_purchase_amount" ></h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="col-sm-6 col-md-3">
+              <div class="card card-stats card-round">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-icon">
+                      <div class="icon-big text-center icon-success bubble-shadow-small">
+                        <i class="fas fa-luggage-cart"></i>
+                      </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                      <div class="numbers">
+                        <p class="card-category">Total Products</p>
+                        <h4 class="card-title"> 1,345</h4>
                       </div>
                     </div>
                   </div>
@@ -133,16 +218,20 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                       <div class="numbers">
-                        <p class="card-category">Order</p>
+                        <p class="card-category">Total Categories</p>
                         <h4 class="card-title">576</h4>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
+
+
           </div>
-          <div class="row">
+
+
+          <!-- <div class="row">
             <div class="col-md-8">
               <div class="card card-round">
                 <div class="card-header">
@@ -565,97 +654,9 @@
         </div>
       </div>
 
-      <footer class="footer">
-        <div class="container-fluid d-flex justify-content-between">
-          <nav class="pull-left">
-            <ul class="nav">
-              <li class="nav-item">
-                <a class="nav-link" href="http://www.themekita.com">
-                  Swiftpos
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"> Help </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"> Licenses </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright">
-            2024, made with <i class="fa fa-heart heart text-danger"></i> by
-            <a href="#">Swiftpos</a>
-          </div>
-          <div>
-            Distributed by
-            <a target="_blank" href="https://themewagon.com/">Swiftpos</a>.
-          </div>
-        </div>
-      </footer>
+
     </div>
 
-    <!-- Custom template | don't include it in your project! -->
-    <div class="custom-template">
-      <div class="title">Settings</div>
-      <div class="custom-content">
-        <div class="switcher">
-          <div class="switch-block">
-            <h4>Logo Header</h4>
-            <div class="btnSwitch">
-              <button type="button" class="selected changeLogoHeaderColor" data-color="dark"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="blue"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="purple"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="light-blue"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="green"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="orange"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="red"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="white"></button>
-              <br />
-              <button type="button" class="changeLogoHeaderColor" data-color="dark2"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="blue2"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="purple2"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="light-blue2"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="green2"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="orange2"></button>
-              <button type="button" class="changeLogoHeaderColor" data-color="red2"></button>
-            </div>
-          </div>
-          <div class="switch-block">
-            <h4>Navbar Header</h4>
-            <div class="btnSwitch">
-              <button type="button" class="changeTopBarColor" data-color="dark"></button>
-              <button type="button" class="changeTopBarColor" data-color="blue"></button>
-              <button type="button" class="changeTopBarColor" data-color="purple"></button>
-              <button type="button" class="changeTopBarColor" data-color="light-blue"></button>
-              <button type="button" class="changeTopBarColor" data-color="green"></button>
-              <button type="button" class="changeTopBarColor" data-color="orange"></button>
-              <button type="button" class="changeTopBarColor" data-color="red"></button>
-              <button type="button" class="selected changeTopBarColor" data-color="white"></button>
-              <br />
-              <button type="button" class="changeTopBarColor" data-color="dark2"></button>
-              <button type="button" class="changeTopBarColor" data-color="blue2"></button>
-              <button type="button" class="changeTopBarColor" data-color="purple2"></button>
-              <button type="button" class="changeTopBarColor" data-color="light-blue2"></button>
-              <button type="button" class="changeTopBarColor" data-color="green2"></button>
-              <button type="button" class="changeTopBarColor" data-color="orange2"></button>
-              <button type="button" class="changeTopBarColor" data-color="red2"></button>
-            </div>
-          </div>
-          <div class="switch-block">
-            <h4>Sidebar</h4>
-            <div class="btnSwitch">
-              <button type="button" class="changeSideBarColor" data-color="white"></button>
-              <button type="button" class="selected changeSideBarColor" data-color="dark"></button>
-              <button type="button" class="changeSideBarColor" data-color="dark2"></button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="custom-toggle">
-        <i class="icon-settings"></i>
-      </div>
-    </div>
-    <!-- End Custom template -->
   </div>
 
   <!--   Core JS Files   -->
@@ -692,7 +693,9 @@
   <script src="assets/js/kaiadmin.min.js"></script>
 
   <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-  <script src="assets/js/setting-demo.js"></script>
+  <!-- <script src="assets/js/setting-demo.js"></script> -->
+
+
   <script src="assets/js/demo.js"></script>
   
   <script src="assets/custom/js/login.js"></script>
@@ -727,7 +730,26 @@
     });
   </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
 
+    // alert("ok");
+    fetch('https://swiftpos-delta.vercel.app/historyapp/statistics/')
+    .then((res)=>res.json())
+    .then((data)=>{
+      document.getElementById("total_products").innerHTML = data.total_products;
+      document.getElementById("total_customer").innerHTML = data.total_customers;
+      document.getElementById("total_supplier").innerHTML = data.total_suppliers;
+      document.getElementById("total_purchase_amount").innerHTML = data.total_purchase_amount;
+      document.getElementById("total_sale_amount" ).innerHTML = data.total_sale_amount;
+      document.getElementById("total_category").innerHTML = data.total_categories;
+
+    })
+
+
+
+});
+</script>
 </body>
 
 </html>

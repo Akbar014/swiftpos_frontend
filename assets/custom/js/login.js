@@ -2,6 +2,7 @@
 const handleLogin = (event) => {
     const getValue = (id) => document.getElementById(id).value.trim();
     event.preventDefault();
+    document.getElementById("login-btn").innerHTML = 'Loading';
     const username = getValue("login-username");
     const password = getValue("login-password");
     if ((username, password)) {
@@ -19,8 +20,22 @@ const handleLogin = (event) => {
             localStorage.setItem("user", data.user);
             localStorage.setItem("user_id", data.user_id);
             localStorage.setItem("role", data.role);
+            document.getElementById("login-btn").innerHTML = 'Login';
             // document.getElementById("loginalert").innerHTML = "Successfull Logged in ";
-            window.location.href = "index2.html";
+            // window.location.href = "index2.html";
+            swal({
+              title :  "Success!" ,
+              text :  "Successfully logged in !!" ,
+              icon: "success",
+              buttons: {
+                  confirm: {
+                      className: "btn btn-success",
+                  },
+              },
+          }).then(() => {
+              // Redirect to products.html after the user clicks the alert
+              window.location.href = "dashboard.html";
+          });
             
             
           }else{
@@ -35,6 +50,7 @@ const handforgot = (event) => {
     const getValue = (id) => document.getElementById(id).value.trim();
     event.preventDefault();
     const email = getValue("user-email");
+    
     // const password = getValue("login-password");
     if ((email)) {
       fetch("https://swiftpos-delta.vercel.app/personapp/api/password_reset/", {

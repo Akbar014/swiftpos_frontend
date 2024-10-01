@@ -12,7 +12,7 @@
     
 </head>
 
-<body style="background-image: url('https://www.drpos.in/wp-content/uploads/2023/04/dr-pos-banner-1.jpg');background-repeat: no-repeat;background-size: cover;">
+<body style="background-image: url('https://www.drpos.in/wp-content/uploads/2023/04/dr-pos-banner-1.jpg');background-repeat: no-repeat;background-size: cover;height: 100vh;">
     <div class="wrapper">
         <div class="logo">
             <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="">
@@ -30,13 +30,17 @@
                 <span class="fas fa-key"></span>
                 <input type="password" name="password" id="login-password" placeholder="Password">
             </div>
-            <button class="btn mt-3" onclick="handleLogin(event)" >Login</button>
+            <button class="btn mt-3" id="login-btn" onclick="handleLogin(event)" >Login</button>
         </form>
 
         <div class="text-center fs-6">
             <a href="forgot_pass.html">Forget password?</a> or <a href="#">Sign in</a>
         </div>
     </div>
+
+    
+    <!-- Sweet Alert -->
+    <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
     <script src="assets/custom/js/login.js"></script>
 </body>

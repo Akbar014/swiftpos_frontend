@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>SWIFTPOS - Smart Pos System</title>
+  <title> SWIFTPOS - Smart Pos System </title>
   <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
   <link rel="icon" href="assets/img/kaiadmin/favicon.ico" type="image/x-icon" />
 
@@ -52,7 +52,7 @@
       <div class="container">
         <div class="page-inner">
           <div class="page-header">
-            <h3 class="fw-bold mb-3">All Sales </h3>
+            <h3 class="fw-bold mb-3">Category</h3>
             <ul class="breadcrumbs mb-3">
               <li class="nav-home">
                 <a href="#">
@@ -63,13 +63,13 @@
                 <i class="icon-arrow-right"></i>
               </li>
               <li class="nav-item">
-                <a href="#">Sales</a>
+                <a href="#">Category</a>
               </li>
               <li class="separator">
                 <i class="icon-arrow-right"></i>
               </li>
               <li class="nav-item">
-                <a href="#">Sales List </a>
+                <a href="#">Categories List </a>
               </li>
             </ul>
           </div>
@@ -82,31 +82,26 @@
                           <h6 class="op-7 mb-2">Free Bootstrap 5 Admin Dashboard</h6>
                         </div> -->
                 <div class="ms-md-auto py-2 py-md-0">
+
                   <!-- <a href="#" class="btn btn-label-info btn-round me-2">Add Product</a> -->
-                  <!-- <a href="#" class="btn btn-success btn-round" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clearProductModal()" >Add Product</a> -->
-                  <a href="sale.html" class="btn btn-primary btn-round">Sale Product</a>
-                  <a href="purchase.html" class="btn btn-info  btn-round">Purchase Product</a>
+                  <a href="#" class="btn btn-success btn-round mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clearCategoryModal()" > Add Category</a>
+                  <!-- <a href="sale.html" class="btn btn-primary btn-round mt-1">Sale Product</a>
+                  <a href="purchase.html" class="btn btn-info  btn-round mt-1">Purchase Product</a> -->
+
                 </div>
+
               </div>
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">Sales List </h4>
+                  <h4 class="card-title">Categories List </h4>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
                     <table id="basic-datatables" class="display table table-striped table-hover">
                       <thead>
                         <tr>
-                          
-                          <th>Created By</th>
-                          <th>Sale Code</th>
-                          <th>Customer </th>
-                          <th>Total Amount</th>
-                          <th>Sale Date</th>
-
-                          <!-- <th>Stock</th>
-
-                          <th>Product Entry Date</th> --> 
+                          <th>Name</th>
+                          <th>description</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -126,7 +121,55 @@
       </div>
 
 
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"> Category </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addCategoryForm">
+              <div class="modal-body">
+                  <input type="hidden" id="categoryId" value="0">
+
+                  <div class="mb-3">
+                    <label for="exampleInputName1" class="form-label"> Cactegory Name </label>
+                    <input type="text" class="form-control form-control-lg" name="name" id="categoryName" required>
+                  </div>
+                  
+                  
+                  <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                  </div>
+                  <!-- <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button> -->
+
+
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" onclick="addCategory(event)" id="saveOrUpdateBtn" > Save Product </button>
+              </div>
+
+              
+          </form>
+
+
+          </div>
+        </div>
+      </div>
+
+ 
     </div>
+
+
+
 
   </div>
   <!--   Core JS Files   -->
@@ -167,6 +210,7 @@
   <!-- Kaiadmin DEMO methods, don't include it in your project! -->
   <script src="assets/js/setting-demo.js"></script>
   <script src="assets/js/demo.js"></script>
+
   <script>
     $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
       type: "line",
@@ -263,46 +307,32 @@
 
   <script>
     $(document).ready(function () {
-    var table = $('#basic-datatables').DataTable();
-    const user = localStorage.getItem("user");
 
-    $.ajax({
-        url: 'https://swiftpos-delta.vercel.app/salesapp/sales/',
+      var table = $('#basic-datatables').DataTable();
+      // $("#basic-datatables").DataTable({});
+
+      $.ajax({
+        url: 'https://swiftpos-delta.vercel.app/productsapp/category/',
         method: 'GET',
         success: function (data) {
-            data.forEach(function (sale) {
-              console.log(sale)
-              console.log(user)
-                // Fetch customer information for each sale
-                fetch(`https://swiftpos-delta.vercel.app/personapp/customer/${sale.customer}/`)
-                    .then((res) => res.json())
-                    .then((customerData) => {
-                        // Fetch user information for each sale
-                        table.row.add([
-                                    sale.user,
-                                    sale.code,
-                                    customerData.name,
-                                    sale.total_amount,
-                                    sale.sale_date,
-                                    `<div class="form-button-action">
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" title="View Sale" onclick="saleDetails(${sale.id})" class="btn btn-link btn-danger">
-                                            <a href="saleDetails.html?saleId=${sale.id}"> <i class="fa fa-eye"></i></a>
-                                        </button>
-                                        
-                                    </div>`
-                                ]).draw(false);
-                    })
-                    .catch((error) => {
-                        console.error('Error fetching customer data:', error);
-                    });
-            });
+
+          data.forEach(function (category) {
+            table.row.add([
+            category.name,
+            category.description,
+            `<div class="form-button-action">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Edit category" onclick="editCategoryInfo(${category.id})" class="btn btn-link btn-primary btn-lg" data-original-title="Edit category">
+                    <i class="fa fa-edit"></i> 
+                </button>
+            </div>`
+            ]).draw(false);
+          });
         },
         error: function (error) {
-            console.error('Error fetching sales data:', error);
+          console.error('Error fetching data:', error);
         }
+      });
     });
-});
-
 
   </script>
   <!-- add product script  -->
