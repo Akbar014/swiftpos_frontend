@@ -331,7 +331,7 @@ function previewImage() {
 }
 
 function add_to_purchase(product_id){
-    const currentPage = window.location.pathname.split("/").pop();
+    const currentPage = window.location.pathname.split("/").pop().split(".")[0];
     // console.log("This function was called from:", currentPage);
     fetch(`https://swiftpos-delta.vercel.app/productsapp/products/${product_id}/`)
     .then((res) => res.json())
@@ -383,7 +383,7 @@ function addProductToPurchase(product,currentPage) {
         const tr = document.createElement("tr");
         tr.setAttribute("data-code", product.code);  // Set product code as data attribute for future checks
         let total;
-        if(currentPage=='sale.html'){
+        if(currentPage === 'sale'){
              total = parseFloat(product.sales_price);
         }else{
              total = parseFloat(product.purchase_price);
