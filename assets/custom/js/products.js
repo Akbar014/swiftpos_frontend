@@ -350,13 +350,13 @@ function add_to_purchase(product_id){
                 },
             })
         }else{
-            addProductToPurchase(data)
+            addProductToPurchase(data,currentPage)
         }
     })
     .catch((err)=> console.log(err));
 }
 
-function addProductToPurchase(product) {
+function addProductToPurchase(product,currentPage) {
     const parent = document.getElementById("purchaseProduct");
 
     const existingProductRow = document.querySelector(`#purchaseProduct tr[data-code="${product.code}"]`);
@@ -382,8 +382,13 @@ function addProductToPurchase(product) {
         // Add new product to the table
         const tr = document.createElement("tr");
         tr.setAttribute("data-code", product.code);  // Set product code as data attribute for future checks
+        let total;
+        if(currentPage=='sale.html'){
+             total = parseFloat(product.sales_price);
+        }else{
+             total = parseFloat(product.purchase_price);
+        }
         
-        const total = parseFloat(product.purchase_price);
         tr.innerHTML = `
             <td class="serial"></td>
             <td id="name"  data-product-id="${product.id}">${product.name}</td>
