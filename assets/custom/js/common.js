@@ -178,7 +178,7 @@ const currentHash = location.hash;
 
 
 
-if (url.includes('/')) {
+if (url.includes('dashboard')) {
     const NavLink = document.querySelector(`li.nav-item[href*="${pathName}"]`);
     if (NavLink) {
         NavLink.classList.add('active');

@@ -331,15 +331,34 @@ function previewImage() {
 }
 
 function add_to_purchase(product_id){
-    
+    const currentPage = window.location.pathname.split("/").pop();
+    // console.log("This function was called from:", currentPage);
     fetch(`https://swiftpos-delta.vercel.app/productsapp/products/${product_id}/`)
     .then((res) => res.json())
-    .then((data)=> addProductToPurchase(data))
+    .then((data)=>{
+        // 
+        console.log(data.stock_quantity)
+        if(data.stock_quantity<=0){
+            swal({
+                title: "Error!",
+                text: "Product stock is finished. Please purchase product first!",
+                icon: "error",
+                buttons: {
+                    confirm: {
+                        className: "btn btn-success",
+                    },
+                },
+            })
+        }else{
+            addProductToPurchase(data)
+        }
+    })
     .catch((err)=> console.log(err));
 }
 
 function addProductToPurchase(product) {
     const parent = document.getElementById("purchaseProduct");
+
     const existingProductRow = document.querySelector(`#purchaseProduct tr[data-code="${product.code}"]`);
     let grandTotalElement = document.getElementById("grand_total");
     let grandTotal = parseFloat(grandTotalElement.textContent) || 0;
