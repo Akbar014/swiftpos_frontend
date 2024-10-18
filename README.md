@@ -1,4 +1,4 @@
-<h1 align="center" id="title">Swiftpos</h1>
+<h1 align="center" id="title">SWIFTPOS</h1>
 
 <p align="center"><img src="https://www.drpos.in/wp-content/uploads/2023/04/dr-pos-banner-1.jpg" alt="project-image"></p>
 
