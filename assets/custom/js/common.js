@@ -11,6 +11,7 @@ function loadHeader() {
         fetch(`https://swiftpos-delta.vercel.app/personapp/users/${user_id}/`)
         .then((res) => res.json())
         .then ((info)=> {
+            loadAdditionalScripts();
             document.getElementById('profile_username').innerHTML = info.username;
             document.getElementById('profile_username1').innerHTML = info.username;
             document.getElementById('profile_email').innerHTML = info.email;
@@ -42,19 +43,60 @@ function loadScript(src) {
     document.body.appendChild(script);
 }
 
+// function loadSidebar() {
+//     fetch('sidebar.html')
+//       .then(response => response.text())
+//       .then(data => {
+//         document.getElementById('sidebar').innerHTML = data;
+//         console.log("loadSidebar");
+//         // navbarOption();
+//         sidebarActive();
+//         sidebarOption();
+//         // userload();
+//       });
+// }
 function loadSidebar() {
     fetch('sidebar.html')
       .then(response => response.text())
       .then(data => {
         document.getElementById('sidebar').innerHTML = data;
         console.log("loadSidebar");
-        // navbarOption();
         sidebarActive();
         sidebarOption();
-        // userload();
+      })
+      .then(() => {
+        // Load scripts only after sidebarOption() has been executed
+        loadAdditionalScripts();
       });
 }
 
+
+function loadAdditionalScripts() {
+    const scriptSources = [
+        "assets/js/core/jquery-3.7.1.min.js",
+        "assets/js/core/popper.min.js",
+        "assets/js/core/bootstrap.min.js",
+        "assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js",
+        "assets/js/plugin/chart.js/chart.min.js",
+        "assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js",
+        "assets/js/plugin/chart-circle/circles.min.js",
+        "assets/js/plugin/datatables/datatables.min.js",
+        "assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js",
+        "assets/js/plugin/jsvectormap/jsvectormap.min.js",
+        "assets/js/plugin/jsvectormap/world.js",
+        "assets/js/plugin/sweetalert/sweetalert.min.js",
+        "assets/js/kaiadmin.min.js",
+        "assets/js/setting-demo.js",
+        "assets/js/demo.js"
+    ];
+
+    scriptSources.forEach(src => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = false; // Ensure scripts are loaded in order
+        document.body.appendChild(script);
+    });
+}
 
 // function loadSidebar() {
 //     fetch('sidebar.html')

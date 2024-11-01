@@ -38,6 +38,7 @@ profileInfo()
 
 
 const editProfileInfo = (event) => {
+    event.preventDefault()
     const user_id = localStorage.getItem("user_id");
     const token = localStorage.getItem('token');
     console.log("user edit")
@@ -62,6 +63,8 @@ const editProfileInfo = (event) => {
         formData.append('image', image); // Append the file if it exists
     }
 
+    console.log(formData)
+
 
     fetch(`https://swiftpos-delta.vercel.app/personapp/users/${user_id}/`, {
         method: 'PATCH',
@@ -74,8 +77,21 @@ const editProfileInfo = (event) => {
     })
     .then((res) => res.json())
     .then((data) => {
-        console.log('Profile updated:', data);
+        // console.log('Profile updated:', data);
         // Optionally, redirect to another page or show a success message
+        swal({
+            title :  "Success!" ,
+            text :  "Profile Updated Successfully !!" ,
+            icon: "success",
+            buttons: {
+                confirm: {
+                    className: "btn btn-success",
+                },
+            },
+        }).then(() => {
+            // Redirect to products.html after the user clicks the alert
+            window.location.href = "profile.html";
+        });
     })
     .catch((error) => console.log("error"));
 };

@@ -22,11 +22,12 @@ function displayProductData(products){
         // }
         
         div.innerHTML = `
-            <div class="card" onclick="add_to_purchase(${product.id})">
+            
+            <div class="card" onclick="add_to_purchase(${product.id})" style="cursor: pointer;">
                 <img src="${productImage}" class="card-img-top " alt="Product Image">
                 <div class="">
                     <h6 class="" id="code" >${product.code}</h6>
-                    
+                    <h6 class="" id="code" >Stock:${product.stock_quantity}</h6>
                 </div>
             </div>
   
@@ -329,97 +330,103 @@ function previewImage() {
         preview.src = ""; // Clear the preview if no file is selected
     }
 }
-
-function add_to_purchase(product_id){
+function add_to_purchase(product_id, qty = 0, inputElement = null, isUpdatingQty = false) {
+    console.log(qty);
     const currentPage = window.location.pathname.split("/").pop().split(".")[0];
-    // console.log("This function was called from:", currentPage);
+
     fetch(`https://swiftpos-delta.vercel.app/productsapp/products/${product_id}/`)
-    .then((res) => res.json())
-    .then((data)=>{
-        // 
-        console.log(data.stock_quantity)
-        if(data.stock_quantity<=0){
+        .then((res) => res.json())
+        .then((data) => {
+            if (currentPage === 'sale') {
+                console.log(data.stock_quantity);
+                if (data.stock_quantity <= 0 || qty > data.stock_quantity) {
+                    if (data.stock_quantity > 0 && inputElement) {
+                        swal({
+                            title: "Error!",
+                            text: `Product current stock is ${data.stock_quantity}. Please purchase more stock!`,
+                            icon: "error",
+                            buttons: {
+                                confirm: {
+                                    className: "btn btn-success",
+                                },
+                            },
+                        });
+                        inputElement.value = data.stock_quantity;
+
+                        const row = document.querySelector(`#purchaseProduct tr[data-code="${data.code}"]`);
+                        const unitPrice = parseFloat(row.querySelector("#unit_price").textContent);
+                        const newTotal = unitPrice * data.stock_quantity;
+                        row.querySelector("#total_price").textContent = newTotal.toFixed(2);
+
+                        updateGrandTotal();
+                    }
+                    swal({
+                        title: "Error!",
+                        text: `Product current stock is ${data.stock_quantity}. Please purchase more stock!`,
+                        icon: "error",
+                        buttons: {
+                            confirm: {
+                                className: "btn btn-success",
+                            },
+                        },
+                    });
+
+                    
+                } else {
+                    addProductToPurchase(data, currentPage, isUpdatingQty);
+                }
+            } else {
+                addProductToPurchase(data, currentPage, isUpdatingQty);
+            }
+        })
+        .catch((err) => console.log(err));
+}
+
+function addProductToPurchase(product, currentPage, isUpdatingQty) {
+    const parent = document.getElementById("purchaseProduct");
+    const existingProductRow = document.querySelector(`#purchaseProduct tr[data-code="${product.code}"]`);
+
+    if (existingProductRow) {
+        if (!isUpdatingQty) {
             swal({
-                title: "Error!",
-                text: "Product stock is finished. Please purchase product first!",
-                icon: "error",
+                title: "Warning!",
+                text: `Product already added!`,
+                icon: "warning",
                 buttons: {
                     confirm: {
                         className: "btn btn-success",
                     },
                 },
-            })
-        }else{
-            addProductToPurchase(data,currentPage)
+            });
         }
-    })
-    .catch((err)=> console.log(err));
-}
-
-function addProductToPurchase(product,currentPage) {
-    const parent = document.getElementById("purchaseProduct");
-
-    const existingProductRow = document.querySelector(`#purchaseProduct tr[data-code="${product.code}"]`);
-    let grandTotalElement = document.getElementById("grand_total");
-    let grandTotal = parseFloat(grandTotalElement.textContent) || 0;
-
-    if (existingProductRow) {
-        // Update existing product's quantity and total price
-        const quantityInput = existingProductRow.querySelector('input.quantity-input');
-        const unitPrice = parseFloat(existingProductRow.querySelector('#unit_price').textContent);
-        let quantity = parseInt(quantityInput.value) + 1;
-        quantityInput.value = quantity;
-        
-        const newTotal = unitPrice * quantity;
-        existingProductRow.querySelector('#total_price').textContent = newTotal.toFixed(2);
-
-        // Update grand total
-        grandTotal += unitPrice;
-        grandTotalElement.textContent = `${grandTotal.toFixed(2)} BDT `;
-        document.getElementById("grand_total_dis").textContent  = document.getElementById("grand_total").textContent
-
     } else {
-        // Add new product to the table
         const tr = document.createElement("tr");
-        tr.setAttribute("data-code", product.code);  // Set product code as data attribute for future checks
-        let total;
-        if(currentPage === 'sale'){
-             total = parseFloat(product.sales_price);
-        }else{
-             total = parseFloat(product.purchase_price);
-        }
-        
+        tr.setAttribute("data-code", product.code);
+        let total = currentPage === 'sale' ? parseFloat(product.sales_price) : parseFloat(product.purchase_price);
+
         tr.innerHTML = `
             <td class="serial"></td>
             <td id="name"  data-product-id="${product.id}">${product.name}</td>
             <td id="code">${product.code}</td>
             <td>
-                <input id="quantity" type="number" class="form-control quantity-input" value="1" min="1">
+                <input id="quantity" type="text" onchange="add_to_purchase(${product.id}, this.value, this, true)" class="form-control quantity-input" value="1" min="1">
             </td>
             <td id="unit_price">${total.toFixed(2)}</td>
             <td id="total_price">${total.toFixed(2)}</td>
         `;
         parent.appendChild(tr);
 
-        // Update grand total
-        grandTotal += total;
-        grandTotalElement.textContent = `${grandTotal.toFixed(2)} BDT `;
-        document.getElementById("grand_total_dis").textContent  = document.getElementById("grand_total").textContent
-
-        // Add event listener for quantity change
+        updateGrandTotal();
         tr.querySelector('.quantity-input').addEventListener('input', function() {
             const quantity = parseInt(this.value);
             const unitPrice = parseFloat(tr.querySelector('#unit_price').textContent);
             const newTotal = unitPrice * quantity;
             tr.querySelector('#total_price').textContent = newTotal.toFixed(2);
-            document.getElementById("grand_total_dis").textContent  = document.getElementById("grand_total").textContent
 
-            // Recalculate grand total
             updateGrandTotal();
         });
     }
 
-    // Update the serial numbers after adding or updating a product
     updateSerialNumbers();
 }
 
@@ -436,6 +443,7 @@ function updateGrandTotal() {
     document.getElementById("grand_total").textContent = `${grandTotal.toFixed(2)} BDT `;
     document.getElementById("grand_total_dis").textContent  = document.getElementById("grand_total").textContent
 }
+
 
 function totalAfterDiscount(){
     const amount = document.getElementById("discount").value;
@@ -458,8 +466,6 @@ function updateSerialNumbers() {
         row.querySelector('.serial').textContent = index + 1;
     });
 }
-
-
 
 
 function allSupplier() {
@@ -543,50 +549,67 @@ function submitPurchase(event) {
 
     };
 
-    fetch('https://swiftpos-delta.vercel.app/purchaseapp/purchases/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(purchaseData),
-    })
-    .then(response => 
-        {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    document.getElementById("alert").innerText = ' Select Supplier To Purchase Successfully ';
-                    throw new Error(JSON.stringify(errorData));
-                });
-            }
-            return response.json();
-        }
-    )
-    .then(data => {
-        // Optionally, clear the form or give feedback to the user
+    if(purchaseItems.length <= 0 || isNaN(supplier)){
         swal({
-            title: "Success!",
-            text: "Product Purchases successfully!",
-            icon: "success",
-            buttons: {
+            title: "Error!",
+            text: "Select Product & Supplier First!",
+            icon: "error", 
+            buttons: { 
                 confirm: {
                     className: "btn btn-success",
                 },
             },
-        }).then(() => {
-            window.location.href = "allPurchase.html";
         });
-    })
-    .catch(error => {
-        console.error('Error creating purchase:', error);
-    });
+        
+    }else{
+        fetch('https://swiftpos-delta.vercel.app/purchaseapp/purchases/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify(purchaseData),
+        })
+        .then(response => 
+            {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        document.getElementById("alert").innerText = ' Select Supplier To Purchase Successfully ';
+                        throw new Error(JSON.stringify(errorData));
+                    });
+                }
+                return response.json();
+            }
+        )
+        .then(data => {
+            // Optionally, clear the form or give feedback to the user
+            swal({
+                title: "Success!",
+                text: "Product Purchases successfully!",
+                icon: "success",
+                buttons: {
+                    confirm: {
+                        className: "btn btn-success",
+                    },
+                },
+            }).then(() => {
+                window.location.href = "allPurchase.html";
+            });
+        })
+        .catch(error => {
+            console.error('Error creating purchase:', error);
+        });
+    }
+
+    
 }
  
 
 function submitSale(event) {
     event.preventDefault();
-    const customer = parseInt(document.getElementById('customer').value); // Convert to integer
-    const user = parseInt(localStorage.getItem("user_id")); // Ensure this is stored as an integer
+    const customer = parseInt(document.getElementById('customer').value); 
+    // const payment_type = parseInt(document.getElementById('payment_type').value); 
+    const user = parseInt(localStorage.getItem("user_id")); 
     const discount = document.getElementById("discount").value;
     
     const saleItems = [];
@@ -597,7 +620,7 @@ function submitSale(event) {
 
         const quantity = parseInt(row.querySelector('.quantity-input').value);
         const unitPrice = parseFloat(row.querySelector('#unit_price').textContent);
-        console.log(product)
+        // console.log(product)
         saleItems.push({
             product: product, 
             quantity: quantity,
@@ -606,20 +629,7 @@ function submitSale(event) {
 
     });
 
-    if(saleItems.length <= 0){
-        swal({
-            title: "Error!",
-            text: "Select Product First!",
-            icon: "error", 
-            buttons: { 
-                confirm: {
-                    className: "btn btn-success",
-                },
-            },
-        }).then(() => {
-            window.location.href = "sale.html";
-        });
-    }
+    
 
     const saleData = {
 
@@ -639,44 +649,75 @@ function submitSale(event) {
         // ]
     };
 
-    console.log(saleData)
-
-    fetch('https://swiftpos-delta.vercel.app/salesapp/sales/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(saleData),
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(errorData => {
-                document.getElementById("alert").innerText = ' Select Customer To Sale Successfully ';
-                throw new Error(JSON.stringify(errorData));
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        // Optionally, clear the form or give feedback to the user
+    // console.log(saleData)
+    if(saleItems.length <= 0 || isNaN(customer)){
         swal({
-            title: "Success!",
-            text: "Sale Created successfully!",
-            icon: "success", 
+            title: "Error!",
+            text: "Select Product & Customer First!",
+            icon: "error", 
             buttons: { 
                 confirm: {
                     className: "btn btn-success",
                 },
             },
-        }).then(() => {
-            window.location.href = "allSale.html";
         });
-    })
-    .catch(error => {
-        console.error('Error creating sale:', error);
-    });
+        
+    }else{
+        let url;
+        url = 'http://127.0.0.1:8000/salesapp/sales/'
+        // if(payment_type==1){
+        //     url = 'http://127.0.0.1:8000/salesapp/sales/'
+        // }else if(payment_type==2){
+        //     url = 'http://127.0.0.1:8000/salesapp/sales_with_online_payment/'
+        // }
+        // console.log(url)
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify(saleData),
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    document.getElementById("alert").innerText = ' Select Customer To Sale Successfully ';
+                    throw new Error(JSON.stringify(errorData));
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            
+           if(data.url){
+            window.location.href = data.url;
+           }else{
+            swal({
+                title: "Success!",
+                text: "Sale Created successfully!",
+                icon: "success", 
+                buttons: { 
+                    confirm: {
+                        className: "btn btn-success",
+                    },
+                },
+            }).then(() => {
+                window.location.href = "allSale.html";
+            });
+           }
+        })
+
+        
+        .catch(error => {
+            console.error('Error creating sale:', error);
+        });
+    
+        }
+
 }
+
+
 
 function saleDetails(){
     const param = new URLSearchParams(window.location.search).get("donorRequestId");

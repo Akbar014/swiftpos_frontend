@@ -80,7 +80,7 @@
     
                     
 
-                    <section class="section-padding"  >
+                    <section class=""  >
                       <h4 class="card-title"id="full_name">Profile Update <i class="bi bi-patch-check-fill text-primary"></i></h4>
                       <div class="container">
                           <div class="row">
@@ -89,41 +89,46 @@
                                   <!-- <h3 class="mb-4"> Profile Information </h3> -->
                               </div>
       
-                              <div class="col-lg-8 col-12 mt-3 mx-auto">
-                                  <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
-                                      <form id="edit-profile-form" >
-                                           
-                                          <div class="form-group mt-2">
-                                              <label for="image">First Name </label>
-                                              <input type="text" class="form-control" id="first_name" name="first_name">
-                                          </div>
-                                          <div class="form-group mt-2">
-                                              <label for="image">Last Name </label>
-                                              <input type="text" class="form-control" id="last_name" name="last_name">
-                                          </div>
-                                          <div class="form-group mt-2">
-                                              <label for="image">Username</label>
-                                              <input type="text" class="form-control" id="username" name="username">
-                                          </div>
-                                          <div class="form-group mt-2">
-                                              <label for="image">Profile Image</label>
-                                              <input type="file" class="form-control" id="image" name="image">
-                                          </div>
-                                          <div class="form-group mt-2">
-                                              <label for="mobile_no">Mobile No</label>
-                                              <input type="text" class="form-control" id="mobile_no" name="mobile_no" required>
-                                          </div>
-                                          
-                                          <div class="form-group mt-2">
-                                              <label for="address">Address</label>
-                                              <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
-                                          </div>
-                                        
-      
-                                          <button class="btn btn-sm btn-success mt-2 mb-2" onclick="editProfileInfo(event)" > Update </button>
-                                      </form>
-                                  </div>
-                              </div>
+                              <div class="col-lg-12 col-12 mt-3 mx-auto section-padding">
+                                <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
+                                    <form id="edit-profile-form ">
+                                        <div class="row p-4">
+                                            <div class="col-lg-4 col-md-6 col-12 form-group mt-2">
+                                                <label for="first_name">First Name</label>
+                                                <input type="text" class="form-control" id="first_name" name="first_name">
+                                            </div>
+                                            <div class="col-lg-4 col-md-6 col-12 form-group mt-2">
+                                                <label for="last_name">Last Name</label>
+                                                <input type="text" class="form-control" id="last_name" name="last_name">
+                                            </div>
+                                            <div class="col-lg-4 col-md-6 col-12 form-group mt-2">
+                                                <label for="username">Username</label>
+                                                <input type="text" class="form-control" id="username" name="username">
+                                            </div>
+                                        </div>
+                            
+                                        <div class="row p-4">
+                                            <div class="col-lg-4 col-md-6 col-12 form-group mt-2">
+                                                <label for="image">Profile Image</label>
+                                                <input type="file" class="form-control" id="image" name="image">
+                                            </div>
+                                            <div class="col-lg-4 col-md-6 col-12 form-group mt-2">
+                                                <label for="mobile_no">Mobile No</label>
+                                                <input type="text" class="form-control" id="mobile_no" name="mobile_no" required>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6 col-12 form-group mt-2">
+                                                <label for="address">Address</label>
+                                                <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                                            </div>
+                                        </div>
+                            
+                                        <div class="form-group mt-1">
+                                            <button class="btn btn-success mt-2 mb-2" onclick="editProfileInfo(event)">Update</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
                           </div>
                       </div>
                   </section>

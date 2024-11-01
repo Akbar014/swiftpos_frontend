@@ -81,4 +81,10 @@
         width: 20px;
         height: 20px;
     }
+    .profile-picture-container {
+        width: 80px;
+        height: 80px;
+        top: 40px;
+    }
 }
+

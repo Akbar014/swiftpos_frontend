@@ -274,31 +274,39 @@
         url: 'https://swiftpos-delta.vercel.app/purchaseapp/purchases/',
         method: 'GET',
         success: function (data) {
-            data.forEach(function (purchase) {
-              console.log(purchase)
-              console.log(user)
-                // Fetch customer information for each purchase
-                fetch(`https://swiftpos-delta.vercel.app/personapp/supplier/${purchase.supplier}/`)
+            // Create an array of promises to fetch supplier data for each purchase
+            const purchasePromises = data.map((purchase) => {
+                return fetch(`https://swiftpos-delta.vercel.app/personapp/supplier/${purchase.supplier}/`)
                     .then((res) => res.json())
-                    .then((customerData) => {
-                        // Fetch user information for each purchase
-                        table.row.add([
-                                    purchase.user,
-                                    purchase.code,
-                                    customerData.name,
-                                    purchase.total_amount,
-                                    purchase.purchase_date,
-                                    `<div class="form-button-action">
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" title="View purchase" onclick="purchaseDetails(${purchase.id})" class="btn btn-link btn-danger">
-                                            <a href="purchaseDetails.html?purchaseId=${purchase.id}"> <i class="fa fa-eye"></i></a>
-                                        </button>
-                                        
-                                    </div>`
-                                ]).draw(false);
+                    .then((supplierData) => {
+                        return { purchase, supplierData }; // Return both purchase and supplier data together
                     })
                     .catch((error) => {
-                        console.error('Error fetching customer data:', error);
+                        console.error('Error fetching supplier data:', error);
+                        return null; // Return null if there's an error to skip adding this row
                     });
+            });
+
+            // Wait for all supplier fetches to complete
+            Promise.all(purchasePromises).then((results) => {
+                results.forEach((result) => {
+                    if (result) { // Check if result exists to ensure valid data
+                        const { purchase, supplierData } = result;
+                        // Add rows in the correct order
+                        table.row.add([
+                            purchase.user,
+                            purchase.code,
+                            supplierData.name,
+                            purchase.total_amount,
+                            purchase.purchase_date,
+                            `<div class="form-button-action">
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" title="View Purchase" onclick="purchaseDetails(${purchase.id})" class="btn btn-link btn-danger">
+                                    <a href="purchaseDetails.html?purchaseId=${purchase.id}"> <i class="fa fa-eye"></i></a>
+                                </button>
+                            </div>`
+                        ]).draw(false);
+                    }
+                });
             });
         },
         error: function (error) {

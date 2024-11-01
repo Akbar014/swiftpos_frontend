@@ -262,7 +262,48 @@
   <script src="assets/custom/js/login.js"></script>
 
   <script>
-    $(document).ready(function () {
+//     $(document).ready(function () {
+//     var table = $('#basic-datatables').DataTable();
+//     const user = localStorage.getItem("user");
+
+//     $.ajax({
+//         url: 'https://swiftpos-delta.vercel.app/salesapp/sales/',
+//         method: 'GET',
+//         success: function (data) {
+//             data.forEach(function (sale) {
+//               console.log(sale)
+//               console.log(user)
+//                 // Fetch customer information for each sale
+//                 fetch(`https://swiftpos-delta.vercel.app/personapp/customer/${sale.customer}/`)
+//                     .then((res) => res.json())
+//                     .then((customerData) => {
+//                         // Fetch user information for each sale
+//                         table.row.add([
+//                                     sale.user,
+//                                     sale.code,
+//                                     customerData.name,
+//                                     sale.total_amount,
+//                                     sale.sale_date,
+//                                     `<div class="form-button-action">
+//                                         <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" title="View Sale" class="btn btn-link btn-danger">
+//                                             <a href="saleDetails.html?saleId=${sale.id}"> <i class="fa fa-eye"></i></a>
+//                                         </button>
+                                        
+//                                     </div>`
+//                                 ]).draw(false);
+//                     })
+//                     .catch((error) => {
+//                         console.error('Error fetching customer data:', error);
+//                     });
+//             });
+//         },
+//         error: function (error) {
+//             console.error('Error fetching sales data:', error);
+//         }
+//     });
+// });
+
+$(document).ready(function () {
     var table = $('#basic-datatables').DataTable();
     const user = localStorage.getItem("user");
 
@@ -270,31 +311,39 @@
         url: 'https://swiftpos-delta.vercel.app/salesapp/sales/',
         method: 'GET',
         success: function (data) {
-            data.forEach(function (sale) {
-              console.log(sale)
-              console.log(user)
-                // Fetch customer information for each sale
-                fetch(`https://swiftpos-delta.vercel.app/personapp/customer/${sale.customer}/`)
+            // Create an array of promises to fetch customer data for each sale
+            const salePromises = data.map((sale) => {
+                return fetch(`https://swiftpos-delta.vercel.app/personapp/customer/${sale.customer}/`)
                     .then((res) => res.json())
                     .then((customerData) => {
-                        // Fetch user information for each sale
-                        table.row.add([
-                                    sale.user,
-                                    sale.code,
-                                    customerData.name,
-                                    sale.total_amount,
-                                    sale.sale_date,
-                                    `<div class="form-button-action">
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" title="View Sale" class="btn btn-link btn-danger">
-                                            <a href="saleDetails.html?saleId=${sale.id}"> <i class="fa fa-eye"></i></a>
-                                        </button>
-                                        
-                                    </div>`
-                                ]).draw(false);
+                        return { sale, customerData }; // Return both sale and customer data together
                     })
                     .catch((error) => {
                         console.error('Error fetching customer data:', error);
+                        return null;
                     });
+            });
+
+            // Wait for all customer fetches to complete
+            Promise.all(salePromises).then((results) => {
+                results.forEach((result) => {
+                    if (result) {
+                        const { sale, customerData } = result;
+                        // Add rows in the correct order
+                        table.row.add([
+                            sale.user,
+                            sale.code,
+                            customerData.name,
+                            sale.total_amount,
+                            sale.sale_date,
+                            `<div class="form-button-action">
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" title="View Sale" class="btn btn-link btn-danger">
+                                    <a href="saleDetails.html?saleId=${sale.id}"> <i class="fa fa-eye"></i></a>
+                                </button>
+                            </div>`
+                        ]).draw(false);
+                    }
+                });
             });
         },
         error: function (error) {
