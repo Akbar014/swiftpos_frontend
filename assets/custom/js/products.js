@@ -67,7 +67,7 @@ function displayProductData(products){
 //     }
     
 //     // let url = 'https://swiftpos-delta.vercel.app/productsapp/products/';
-//     let url = 'http://127.0.0.1:8000/productsapp/products/';
+//     let url = 'https://swiftpos-delta.vercel.app/productsapp/products/';
 //     let method = 'POST';
 
 //     if (productId>0) {
@@ -664,11 +664,11 @@ function submitSale(event) {
         
     }else{
         let url;
-        url = 'http://127.0.0.1:8000/salesapp/sales/'
+        url = 'https://swiftpos-delta.vercel.app/salesapp/sales/'
         // if(payment_type==1){
-        //     url = 'http://127.0.0.1:8000/salesapp/sales/'
+        //     url = 'https://swiftpos-delta.vercel.app/salesapp/sales/'
         // }else if(payment_type==2){
-        //     url = 'http://127.0.0.1:8000/salesapp/sales_with_online_payment/'
+        //     url = 'https://swiftpos-delta.vercel.app/salesapp/sales_with_online_payment/'
         // }
         // console.log(url)
         fetch(url, {
